@@ -17,8 +17,6 @@ sudo -K
 sudo true;
 clear
 
-# Note: Homebrew needs to be set up first
-source ${MY_DIR}/scripts/common/homebrew.sh
 source ${MY_DIR}/scripts/common/configuration-bash.sh
 
 # Place any applications that require the user to type in their password here
