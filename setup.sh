@@ -22,14 +22,11 @@ MY_DIR="$(dirname "$0")"
 # Update Ubuntu Package Catalog
 sudo apt update -y && sudo apt upgrade -y
 
-source ${MY_DIR}/scripts/common/configuration-bash.sh
+source "${MY_DIR}"/scripts/common/configuration-bash.sh
+source "${MY_DIR}"/scripts/common/git.sh
+source "${MY_DIR}"/scripts/common/git-aliases.sh
 
-# Place any applications that require the user to type in their password here
-#brew cask install github
-#brew cask install zoomus
-#
-#source ${MY_DIR}/scripts/common/git.sh
-#source ${MY_DIR}/scripts/common/git-aliases.sh
+
 #source ${MY_DIR}/scripts/common/cloud-foundry.sh
 #source ${MY_DIR}/scripts/common/applications-common.sh
 #source ${MY_DIR}/scripts/common/unix.sh

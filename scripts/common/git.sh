@@ -1,15 +1,10 @@
 echo
 echo "Installing Git and associated tools"
-brew install git
-brew tap git-duet/tap
-brew install git-duet
-brew install git-pair
-brew install git-together
-brew install git-author
-brew install vim
+wget https://github.com/git-duet/git-duet/releases/latest/download/linux_amd64.tar.gz
+sudo tar -xvf linux_amd64.tar.gz -C /usr/local/bin
+rm linux_amd64.tar.gz
 
-brew cask install rowanj-gitx
-brew cask install sourcetree
+sudo apt-get install -y vim
 
 echo
 echo "Putting a sample git-pair file in ~/.pairs"
@@ -37,7 +32,6 @@ fi
 
 # install cred-alert-cli
 os_name=$(uname | awk '{print tolower($1)}')
-curl -o cred-alert-cli \
-  https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
-chmod 755 cred-alert-cli
-mv cred-alert-cli /usr/local/bin # <= or other directory in ${PATH}
+curl -O https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
+sudo install cred-alert-cli_linux /usr/local/bin/cred-alert-cli
+rm cred-alert-cli_${os_name}
