@@ -28,10 +28,9 @@ source "${MY_DIR}"/scripts/common/git-aliases.sh
 
 
 source ${MY_DIR}/scripts/common/cloud-foundry.sh
-#source ${MY_DIR}/scripts/common/applications-common.sh
-#source ${MY_DIR}/scripts/common/unix.sh
-#source ${MY_DIR}/scripts/common/configuration-osx.sh
-#source ${MY_DIR}/scripts/common/configurations.sh
+source ${MY_DIR}/scripts/common/applications-common.sh
+source ${MY_DIR}/scripts/common/unix.sh
+source ${MY_DIR}/scripts/common/configurations.sh
 #
 ## For each command line argument, try executing the corresponding script in opt-in/
 #for var in "$@"
@@ -46,7 +45,4 @@ source ${MY_DIR}/scripts/common/cloud-foundry.sh
 #    fi
 #done
 #
-#source ${MY_DIR}/scripts/common/finished.sh
-#if (( SKIP_ANALYTICS == 0 )); then
-#    source ${MY_DIR}/scripts/helpers/google-analytics.sh ${clientID} finish $@
-#fi
+source ${MY_DIR}/scripts/common/finished.sh
