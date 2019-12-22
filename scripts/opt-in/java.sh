@@ -1,4 +1,4 @@
 echo
 echo "Installing most recent version of Java"
-brew cask install java
+sudo apt install openjdk-11-jdk-headless
 source ${MY_DIR}/scripts/opt-in/java-tools.sh
