@@ -5,6 +5,8 @@ set +e
 echo
 echo "Installing applications"
 
+sudo apt install -y ruby
+
 # Utilities
 sudo snap install postman
 

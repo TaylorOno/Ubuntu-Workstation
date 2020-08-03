@@ -23,6 +23,7 @@ MY_DIR="$(dirname "$0")"
 sudo apt update -y && sudo apt upgrade -y
 
 sudo apt-get install -y build-essential
+sudo apt-get install -y curl
 source "${MY_DIR}"/scripts/common/configuration-bash.sh
 source "${MY_DIR}"/scripts/common/git.sh
 source "${MY_DIR}"/scripts/common/git-aliases.sh
