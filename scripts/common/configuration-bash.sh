@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
+
 echo
 echo "Configuring bash with bash-it"
 
 sudo apt-get -qq install -y autojump
-sudo apt-get -qq install -y grc #Colorize Logs
+sudo apt-get -qq install -y grc       #Colorize Logs
 sudo apt-get -qq install -y coreutils #Linux Command line tool
 
 cp files/dircolors.ansi-dark ~/.dircolors

@@ -1,17 +1,27 @@
 # Don't stop if docker fails
-set +e
 
-# Docker
-# sudo apt install -y docker.io
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
+if command -v docker 2>&1 >/dev/null; then
+  echo " - Docker is already installed"
+else
+  set +e
+  # Add Docker's official GPG key:
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-sudo curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker
-sudo curl -L https://raw.githubusercontent.com/docker/machine/master/contrib/completion/bash/docker-machine.bash -o /etc/bash_completion.d/docker-machine
-sudo groupadd docker
-sudo usermod -aG docker ${USER}
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+    sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+  sudo apt-get -qq update
 
-set -e
+  sudo apt-get -qq install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Add user to docker group
+  sudo groupadd docker
+  sudo usermod -aG docker ${USER}
+
+  echo " - Installed the latest version of docker"
+  set -e
+fi

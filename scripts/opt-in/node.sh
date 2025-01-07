@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-if ! command -v nvm &> /dev/null; then
-  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash >/dev/null
-  export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  echo " - Installed Node Version Manager (nvm)"
-else
+NVM_DIR="$HOME/.nvm"
+if [[ -e "$NVM_DIR" ]]; then
   echo " - NVM is already installed"
+else
+  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash >/dev/null
+  echo " - Installed Node Version Manager (nvm)"
 fi
 
-if ! command -v node &> /dev/null; then
-  nvm install --silent node
-  echo " - Installed the latest version of NodeJS"
-else
+if command -v npm 2>&1 >/dev/null; then
   echo " - NodeJS is already installed"
+else
+  source "$NVM_DIR/nvm.sh"
+  nvm install node --lts --default
+  echo " - Installed the latest version of NodeJS"
 fi
 
-if ! command -v deno &> /dev/null; then
-  curl -fsSL https://deno.land/install.sh | sh -s -- -y >/dev/null
-  source ~/.bashrc
-  echo " - Installed Deno"
-else
+if command -v deno &>/dev/null; then
   echo " - Deno is already installed"
+else
+  curl -fsSL https://deno.land/install.sh | sh -s -- -y >/dev/null
+  echo " - Installed Deno"
 fi
