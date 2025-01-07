@@ -5,18 +5,6 @@ set +e
 echo
 echo "Installing applications"
 
-sudo apt install -y ruby
-
-# Utilities
-sudo snap install postman
-
-# Browsers
-sudo snap install chromium
-
-# Communication
-sudo snap install slack --classic
-
-# Text Editors
-sudo snap install code --classic
+sudo apt-get -qq install -y ruby
 
 set -e

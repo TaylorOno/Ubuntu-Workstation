@@ -1,18 +1,20 @@
-echo
-echo "Installing Golang Development tools"
+#!/usr/bin/env bash
 
 mkdir -p ~/go/src
-export GOVERSION=1.14.6
+export GO_LATEST=$(curl -s -X GET https://go.dev/dl/?mode=json | jq -r .[0].version)
 
-wget https://dl.google.com/go/go$GOVERSION.linux-amd64.tar.gz
-sudo tar -xvf go$GOVERSION.linux-amd64.tar.gz -C /usr/local
-sudo ln -sfn /usr/local/go/bin/go /usr/bin/go
-sudo ln -sfn /usr/local/go/bin/gofmt /usr/bin/gofmt
-sudo rm go$GOVERSION.linux-amd64.tar.gz
+if command -v go &> /dev/null; then
+  export GO_VERSION=$(go version | awk '{print $3}')
+fi
 
-sudo snap install goland --classic
-
-source ${MY_DIR}/scripts/common/download-pivotal-ide-prefs.sh
-pushd ~/workspace/pivotal_ide_prefs/cli
-./bin/ide_prefs install --ide=goland
-popd
+if [[ "$GO_VERSION" == "$GO_LATEST" ]]; then
+    echo " - Latest Go version $GO_LATEST is already installed"
+else
+  mkdir -p ~/go/src
+  wget -q https://dl.google.com/go/$GO_LATEST.linux-amd64.tar.gz
+  sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf $GO_LATEST.linux-amd64.tar.gz
+  sudo ln -sfn /usr/local/go/bin/go /usr/bin/go
+  sudo ln -sfn /usr/local/go/bin/gofmt /usr/bin/gofmt
+  sudo rm $GO_LATEST.linux-amd64.tar.gz
+  echo " - Installed Golang Development tools"
+fi

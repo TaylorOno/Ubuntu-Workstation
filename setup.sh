@@ -22,30 +22,32 @@ MY_DIR="$(dirname "$0")"
 # Update Ubuntu Package Catalog
 sudo apt update -y && sudo apt upgrade -y
 
-sudo apt-get install -y build-essential
-sudo apt-get install -y curl
+sudo apt-get -qq install -y build-essential
+sudo apt-get -qq install -y curl
 source "${MY_DIR}"/scripts/common/configuration-bash.sh
 source "${MY_DIR}"/scripts/common/git.sh
 source "${MY_DIR}"/scripts/common/git-aliases.sh
 
-
-source ${MY_DIR}/scripts/common/cloud-foundry.sh
 source ${MY_DIR}/scripts/common/applications-common.sh
 source ${MY_DIR}/scripts/common/unix.sh
 source ${MY_DIR}/scripts/common/sonar-scanner.sh
 source ${MY_DIR}/scripts/common/configurations.sh
 
+echo
+echo "-----------------------------------------"
+echo "Optional Dependencies"
+echo "-----------------------------------------"
 # For each command line argument, try executing the corresponding script in opt-in/
 for var in "$@"
 do
-    echo "$var"
     FILE=${MY_DIR}/scripts/opt-in/${var}.sh
-    echo "$FILE"
+    echo "Installing $var: $FILE"
     if [ -f $FILE ]; then
         source ${FILE}
     else
        echo "Warning: $var does not appear to be a valid argument. File $FILE does not exist."
     fi
+    echo
 done
 
 source ${MY_DIR}/scripts/common/finished.sh
