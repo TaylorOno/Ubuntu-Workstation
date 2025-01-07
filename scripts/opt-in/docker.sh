@@ -1,4 +1,4 @@
-# Don't stop if docker fails
+#!/usr/bin/env bash
 
 if command -v docker 2>&1 >/dev/null; then
   echo " - Docker is already installed"

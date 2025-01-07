@@ -20,9 +20,16 @@ clear
 MY_DIR="$(dirname "$0")"
 
 # Update Ubuntu Package Catalog
-sudo apt-get clean && sudo apt-get -o Acquire::ForceIPv4=false update -y && sudo apt-get upgrade -y
+echo "-----------------------------------------"
+echo "Updating Package Catalog"
+echo "-----------------------------------------"
+sudo apt-get clean && sudo apt-get -qq -o Acquire::ForceIPv4=false update -y && sudo apt-get -qq upgrade -y
 
-sudo apt-get -qq install -y build-essential ca-certificates curl
+echo
+echo "-----------------------------------------"
+echo "Common Dependencies"
+echo "-----------------------------------------"
+sudo apt-get -qq install -y build-essential ca-certificates apt-transport-https curl software-properties-common
 source "${MY_DIR}"/scripts/common/configuration-bash.sh
 source "${MY_DIR}"/scripts/common/git.sh
 source "${MY_DIR}"/scripts/common/git-aliases.sh

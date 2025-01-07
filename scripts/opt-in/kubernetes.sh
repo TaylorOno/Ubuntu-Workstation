@@ -1,26 +1,29 @@
-echo
-echo "Installing common Kubernetes tooling"
+#!/usr/bin/env bash
 
-sudo apt-get install -y apt-transport-https ca-certificates curl
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl
-
-# Shell completion
-FILE=~/.bashrc
-if [[ -f "$FILE" ]]; then
-    echo "$FILE exists proceeding."
+if command -v kubectl 2>&1 >/dev/null; then
+  echo " - kubectl is already installed"
 else
-    echo "$FILE does not exist, creating."
-    touch $FILE
+  set +e
+  # Add Kubernetes official GPG key:
+  curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
+  echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
+  sudo apt-get -qq update
+
+  # Install Kubectl
+  sudo apt-get -qq install -y kubectl
+
+  # Shell completion
+  FILE=~/.bashrc
+  if [[ ! -f "$FILE" ]]; then
+      touch $FILE
+  fi
+
+  echo 'source <(kubectl completion bash)' >>~/.bashrc
+  echo 'alias k=kubectl' >>~/.bashrc
+  echo 'complete -F __start_kubectl k' >>~/.bashrc
+
+  echo " - Installed the latest version of kubectl"
+  set -e
 fi
-
-echo 'source <(kubectl completion bash)' >>~/.bashrc
-echo 'alias k=kubectl' >>~/.bashrc
-echo 'complete -F __start_kubectl k' >>~/.bashrc
-
-
-# kubectx
-KUBECTX_VER=$(curl -s -X GET  https://api.github.com/repos/ahmetb/kubectx/releases/latest | jq -r .name)
-sudo curl -L https://github.com/ahmetb/kubectx/releases/download/"$KUBECTX_VER"/kubectx_"$KUBECTX_VER"_linux_arm64.tar.gz | sudo tar xvz -C /usr/sbin

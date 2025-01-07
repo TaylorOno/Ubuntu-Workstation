@@ -1,16 +1,4 @@
 echo
-echo "Installing Git and associated tools"
-wget -q https://github.com/git-duet/git-duet/releases/latest/download/linux_amd64.tar.gz
-sudo tar -xvf linux_amd64.tar.gz -C /usr/local/bin
-rm linux_amd64.tar.gz
-
-sudo apt-get -qq install -y vim
-
-echo
-echo "Putting a sample git-pair file in ~/.pairs"
-cp files/.pairs ~/.pairs
-
-echo
 echo "Setting global Git configurations"
 git config --global core.editor /usr/local/bin/vim
 git config --global transfer.fsckobjects true
