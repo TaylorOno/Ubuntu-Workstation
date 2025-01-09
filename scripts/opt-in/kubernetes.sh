@@ -9,10 +9,10 @@ else
   sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
   echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
   sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
-  sudo apt-get -qq update
+  sudo apt-get -qq update >/dev/null
 
   # Install Kubectl
-  sudo apt-get -qq install -y kubectl
+  sudo apt-get -qq install -y kubectl >/dev/null
 
   # Shell completion
   FILE=~/.bashrc

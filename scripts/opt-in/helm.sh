@@ -1,18 +1,23 @@
-echo
-echo "Installing common helm tooling"
+#!/usr/bin/env bash
 
-curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
-echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get -qq update
-sudo apt-get -qq install -y helm
-
-# Shell completion
-FILE=~/.bashrc
-if [[ -f "$FILE" ]]; then
-    echo "$FILE exists proceeding."
+if command -v helm 2>&1 >/dev/null; then
+  echo " - helm is already installed"
 else
-    echo "$FILE does not exist, creating."
-    touch $FILE
-fi
+  # Add Helm official GPG key
+  curl -fsSL https://baltocdn.com/helm/signing.asc | sudo gpg --dearmor -o /etc/apt/keyrings/helm.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+  sudo apt-get -qq update >/dev/null
 
-echo 'source <(helm completion bash)' >>~/.bashrc
+  # Install Helm
+  sudo apt-get -qq install -y helm >/dev/null
+
+  # Shell completion
+  FILE=~/.bashrc
+  if [[ ! -f "$FILE" ]]; then
+    touch $FILE
+  fi
+
+  echo 'source <(helm completion bash)' >>~/.bashrc
+
+  echo " - Installed the latest version of helm"
+fi

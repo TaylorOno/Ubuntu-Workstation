@@ -29,7 +29,7 @@ echo
 echo "-----------------------------------------"
 echo "Common Dependencies"
 echo "-----------------------------------------"
-sudo apt-get -qq install -y build-essential ca-certificates apt-transport-https curl software-properties-common
+sudo apt-get -qq install -y build-essential ca-certificates apt-transport-https curl software-properties-common >/dev/null
 source "${MY_DIR}"/scripts/common/configuration-bash.sh
 source "${MY_DIR}"/scripts/common/git.sh
 source "${MY_DIR}"/scripts/common/git-aliases.sh

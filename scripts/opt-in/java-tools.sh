@@ -1,6 +1,5 @@
 echo
 echo "Installing Java Development tools"
-sudo snap install intellij-idea-ultimate --classic # guard against pre-installed intellij
 sudo apt install -y maven
 sudo apt install -y gradle
 sudo apt install -y gradle-completion

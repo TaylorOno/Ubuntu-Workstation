@@ -8,11 +8,11 @@ else
   echo " - Installed Node Version Manager (nvm)"
 fi
 
-if command -v npm 2>&1 >/dev/null; then
+if command -v node 2>&1 >/dev/null; then
   echo " - NodeJS is already installed"
 else
   source "$NVM_DIR/nvm.sh"
-  nvm install node --lts --default
+  nvm install node --lts >/dev/null
   echo " - Installed the latest version of NodeJS"
 fi
 
