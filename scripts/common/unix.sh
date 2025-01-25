@@ -4,6 +4,7 @@ echo
 echo "-----------------------------------------"
 echo "Installing utilities for unix development"
 echo "-----------------------------------------"
+set -e
 
 export FZF="$HOME/.fzf"
 if [ ! -d $FZF ]; then
@@ -20,3 +21,5 @@ echo " - unzip"
 
 sudo apt-get -qq install -y jq >/dev/null
 echo " - jq"
+
+set +e
