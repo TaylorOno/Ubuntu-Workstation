@@ -4,6 +4,7 @@ if command -v kubectl 2>&1 >/dev/null; then
   echo " - kubectl is already installed"
 else
   set +e
+  pushd pwd
   # Add Kubernetes official GPG key:
   curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --batch --yes --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
   sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
@@ -59,5 +60,7 @@ else
   echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >>~/.bashrc
 
   echo " - Installed the latest version of kubectl"
+
+  popd
   set -e
 fi
